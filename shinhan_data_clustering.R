@@ -34,8 +34,11 @@ head(df_02)
 
 # nb clust 
 library(NbClust)
-nc <- NbClust(df_02, min.nc = 2, max.nc = 15, method = "kmeans")
+nc <- NbClust(df_02, min.nc = 2, max.nc = 7, method = "kmeans")
 
+# k-means / group = 3
 kmeans_df_02 <- kmeans(df_02, centers = 3, iter.max = 1000)
+qplot(총자산, 부채잔액, colour = cluster, data = training)
+
 
 
