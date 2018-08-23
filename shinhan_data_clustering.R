@@ -1,9 +1,10 @@
+# set the work directory and load the data 
 setwd('Rwork')
-
 data <- read.csv("Shinhan_data_ya02.csv", encoding='latin1')
 head(data)
 str(data)
 
+# rename the columns
 colnames(data) <- c('idx','성별','연령_10세단위','직업구분',
     '지역구분','가구소득구간','결혼여부','맞벌이','자녀수','총자산','금융자산',
     '부동산자산','기타자산','월총저축액','월저축액_적금','청약보유여부',
@@ -16,20 +17,8 @@ colnames(data) <- c('idx','성별','연령_10세단위','직업구분',
 head(data)
 cor(data)
 
-# nearZeroVar test
-library(caret)
-nearZeroVar(data)
-nearZeroVar(data, name=TRUE)
-data02 <- data[,c(-16, -17, -18, -19, -22, -23, -24, -25, -26)]
-str(data02)
-
-# min-max normalization
-normalize <- function(x) {
-  return ((x - min(x)) / (max(x) - min(x)))
-}
-
-df_norm <- as.data.frame(lapply(data['총자산', '부채잔액'], normalize))
-df_02 <- data[,c('총자산', '부채잔액')]
+# normalization
+df_02 <- scale(data[,c('총자산', '부채잔액')])
 head(df_02)
 
 # nb clust 
@@ -38,7 +27,7 @@ nc <- NbClust(df_02, min.nc = 2, max.nc = 7, method = "kmeans")
 
 # k-means / group = 3
 kmeans_df_02 <- kmeans(df_02, centers = 3, iter.max = 1000)
-qplot(총자산, 부채잔액, colour = cluster, data = training)
-
+kmeans_df_02
+plot(df_02, col= kmeans_df_02$cluster)
 
 
