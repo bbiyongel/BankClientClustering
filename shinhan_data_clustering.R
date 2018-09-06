@@ -1,8 +1,6 @@
 # set the work directory and load the data 
 setwd('Rwork')
 data <- read.csv("Shinhan_data_ya02.csv", encoding='latin1')
-head(data)
-str(data)
 
 # rename the columns
 colnames(data) <- c('idx','성별','연령_10세단위','직업구분',
@@ -14,8 +12,6 @@ colnames(data) <- c('idx','성별','연령_10세단위','직업구분',
     '노후자금융월저축액','금융상품잔액_정기예금','금용상품잔액_적금',
     '금융상품잔액_청약','금용상품잔액_펀드','금융상품잔액_ELS/DLS/ETF',
     '월총소비금액','월평균카드사용금액')
-head(data)
-cor(data)
 
 # normalization
 df_02 <- scale(data[,c('총자산', '부채잔액')])
